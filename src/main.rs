@@ -79,6 +79,8 @@ fn main() {
         run(true, a);
         }
 
+        "test" => {println!("it works!");}
+
         // does a light clean up unlike the remove command
         "softremove" => {
         let mut a = vec!["pacman", "-R"];
