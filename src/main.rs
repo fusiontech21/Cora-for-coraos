@@ -1,7 +1,9 @@
 use colored::Colorize;
 use std::process::Command;
 
-// TODO  add autoremove command : LINE 70
+const VERSION: &str = "0.1.0";
+
+// TODO  add autoremove command : LINE 132
 // TODO add a help command that lists commands and names their Functions
 
 fn run(cmd: &str, args: &[&str]) {
@@ -11,7 +13,7 @@ fn run(cmd: &str, args: &[&str]) {
     });
 
     if status.success() {
-        println!("{}", "✔ Done!".green());
+        println!("{}", "Finished with no errors hooray!".green());
     }
 }
 
@@ -22,8 +24,34 @@ fn require_pkg(pkg: Option<&String>) -> &str {
     })
 }
 
+// UPDATE SYSTEM DONT EDIT THIS (unless you can make it better)
+fn checkupdate() {
+    let url = "https://api.github.com/repos/fusiontech21/Fus-UtilityTool/releases/latest";
+
+    let clint = reqwest::blocking::Client::builder()
+        .user_agent("fusi")
+        .build()
+        .unwrap();
+
+    if let Ok(resp) = clint.get(url).send() {
+        if let Ok(txt) = resp.text() {
+            if let Some(tg) = txt.split("\"tag_name\":\"").nth(1) {
+                let latst = tg.split('"').next().unwrap_or("");
+                if !latst.is_empty() && latst != VERSION {
+                    println!(
+                        "{} {}",
+                        format!("⚠ New Version Available: {}", latst).yellow(),
+                        format!("→ RUN 'fusi self-update' to update").red()
+                    );
+                }
+            }
+        }
+    }
+}
+
 fn main() {
     colored::control::set_override(true);
+    checkupdate();
     let args: Vec<String> = std::env::args().skip(1).collect();
 
     if args.is_empty() {
@@ -46,9 +74,22 @@ fn main() {
 
         // FUN
         "secret" => {
-            let txt = args[1..].join(" ");
+            let txt = "You are secretly a Femboys";
             secrething(&txt);
         }
+
+        //Updates Fusi
+        "self-update" => {
+            run(
+                // NO NOT AGAIN THE FORMATTING HOLY SHITTT ITS EVEN FORMATTING THE COMMENT REALLY WEIRD
+                "bash",
+                &[
+                    "-c",
+                    "curl -s https://raw.githubusercontent.com/fusiontech21/Fus-UtilityTool/main/setup/install.sh | bash",
+                ],
+            );
+        }
+
         // searches for a package
         "search" => run("pacman", &["-Ss", require_pkg(pkg)]),
 
@@ -114,6 +155,7 @@ fn main() {
 
         // exact same as deps but fancier name
         "dependencies" => run("pacman", &["-Si", require_pkg(pkg)]),
+
         // shows install history
         "log" => run("cat", &["/var/log/pacman.log"]),
 
@@ -213,7 +255,7 @@ fn main() {
             println!(
                 "{} {}",
                 "fusi mirrors".green().bold(),
-                "→ Update your mirrorlist"
+                "→ Lists your mirrors"
             );
             println!(
                 "{} {}",
