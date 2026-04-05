@@ -5,10 +5,10 @@ use colored::Colorize;
 pub const VERSION: &str = "0.3.5";
 
 pub fn checkupdate() {
-    let url = "https://api.github.com/repos/fusiontech21/Fusi/releases/latest";
+    let url = "https://api.github.com/repos/fusiontech21/Cora/releases/latest";
 
     let clint = reqwest::blocking::Client::builder()
-        .user_agent("fusi")
+        .user_agent("cora")
         .build()
         .unwrap();
 
@@ -17,7 +17,7 @@ pub fn checkupdate() {
             if let Some(tg) = txt.split("\"tag_name\":\"").nth(1) {
                 let latst = tg.split('"').next().unwrap_or("");
                 if !latst.is_empty() && latst != VERSION {
-                    println!(); 
+                    println!();
                     println!(
                         "{}",
                         "╔══════════════════════════════════════════╗".yellow()
@@ -30,7 +30,7 @@ pub fn checkupdate() {
                     );
                     println!(
                         "{}",
-                        "║  RUN 'fusi self-update' to update        ║".red().bold()
+                        "║  RUN 'cora self-update' to update        ║".red().bold()
                     );
                     println!(
                         "{}",
@@ -44,9 +44,9 @@ pub fn checkupdate() {
 }
 
 pub fn latest() -> bool {
-    let url = "https://api.github.com/repos/fusiontech21/Fusi/releases/latest";
+    let url = "https://api.github.com/repos/fusiontech21/Cora/releases/latest";
     let client = reqwest::blocking::Client::builder()
-        .user_agent("fusi")
+        .user_agent("cora")
         .build()
         .unwrap();
 

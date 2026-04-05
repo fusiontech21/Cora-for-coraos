@@ -1,5 +1,5 @@
-echo "Installing Fusi..."
-curl -L https://github.com/fusiontech21/Fusi/releases/latest/download/fusi -o /tmp/fusi
-sudo chmod +x /tmp/fusi
-sudo cp /tmp/fusi /usr/local/bin/fusi
-echo "© Fusi installed successfully!"
+echo "Installing Cora..."
+curl -L https://github.com/fusiontech21/Cora/releases/latest/download/cora -o /tmp/cora
+sudo chmod +x /tmp/cora
+sudo cp /tmp/cora /usr/local/bin/cora
+echo "© Cora installed successfully!"

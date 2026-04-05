@@ -1,10 +1,10 @@
-# Fusi 🦀
+# Cora 🦀
 
-[![License](https://img.shields.io/badge/License-AGPL--3.0-blue)](https://www.gnu.org/licenses/agpl-3.0.html)
+[![License](https://img.shields.io/badge/License-GPL--3.0-blue)](https://www.gnu.org/licenses/agpl-3.0.html)
 [![Made with](https://img.shields.io/badge/Made%20with-Rust-orange)](https://rust-lang.org)
 [![Built for](https://img.shields.io/badge/Built%20for-Arch%20Based%20Distros-cyan)](https://archlinux.org)
 
-Fusi is a terminal tool for Arch-based distros that replaces complex pacman commands with simple human-readable ones. Instead of `sudo pacman -S pkg` you just type `fusi install pkg`. Includes package management, mirror updates, system maintenance and more — built to make the terminal accessible for Linux beginners.
+Cora is a terminal tool for Arch-based distros that replaces complex pacman commands with simple human-readable ones. Instead of `sudo pacman -S pkg` you just type `cora install pkg`. Includes package management, mirror updates, system maintenance and more — built to make the terminal accessible for Linux beginners.
 
 ---
 
@@ -18,15 +18,15 @@ sudo pacman -Syu
 
 ### One line install
 ```bash
-curl -s https://raw.githubusercontent.com/fusiontech21/Fusi/main/install.sh | bash
+curl -s https://raw.githubusercontent.com/fusiontech21/Cora/main/install.sh | bash
 ```
 
 ### Manual install
 ```bash
-git clone https://github.com/fusiontech21/Fusi
-cd Fusi
+git clone https://github.com/fusiontech21/Cora
+cd Cora
 cargo build --release
-sudo cp target/release/fusi /usr/local/bin/
+sudo cp target/release/cora /usr/local/bin/
 ```
 
 ### Requirements
@@ -46,31 +46,31 @@ sudo cp target/release/fusi /usr/local/bin/
 
 | Command | What it does |
 |---|---|
-| `fusi install <pkg>` | Install a package |
-| `fusi remove <pkg>` | Remove a package and its configs + orphaned deps |
-| `fusi softremove <pkg>` | Remove just the package |
-| `fusi search <pkg>` | Search for a package |
-| `fusi update` | Update the entire system |
-| `fusi upgrade <pkg>` | Upgrade a specific package |
-| `fusi downgrade <pkg>` | Downgrade a package to an older cached version |
-| `fusi info <pkg>` | Show info about a package |
-| `fusi installed <pkg>` | Check if a package is installed |
-| `fusi list` | List packages you explicitly installed |
-| `fusi listall` | List every installed package including dependencies |
-| `fusi files <pkg>` | Show all files owned by a package |
-| `fusi owner <file>` | Show which package owns a file |
-| `fusi deps <pkg>` | Show dependencies of a package |
-| `fusi stats` | Show how many packages you have installed |
-| `fusi log` | Show pacman install history |
-| `fusi mirrors` | Update your mirrorlist with reflector |
-| `fusi unlock` | Remove pacman lock file when pacman gets stuck |
-| `fusi details` | Show info about fusi |
+| `cora install <pkg>` | Install a package |
+| `cora remove <pkg>` | Remove a package and its configs + orphaned deps |
+| `cora softremove <pkg>` | Remove just the package |
+| `cora search <pkg>` | Search for a package |
+| `cora update` | Update the entire system |
+| `cora upgrade <pkg>` | Upgrade a specific package |
+| `cora downgrade <pkg>` | Downgrade a package to an older cached version |
+| `cora info <pkg>` | Show info about a package |
+| `cora installed <pkg>` | Check if a package is installed |
+| `cora list` | List packages you explicitly installed |
+| `cora listall` | List every installed package including dependencies |
+| `cora files <pkg>` | Show all files owned by a package |
+| `cora owner <file>` | Show which package owns a file |
+| `cora deps <pkg>` | Show dependencies of a package |
+| `cora stats` | Show how many packages you have installed |
+| `cora log` | Show pacman install history |
+| `cora mirrors` | Update your mirrorlist with reflector |
+| `cora unlock` | Remove pacman lock file when pacman gets stuck |
+| `cora details` | Show info about cora |
 
 ---
 
 ## License
 
-This project is licensed under the **AGPL-3.0** license. See [LICENSE](LICENSE) for details.
+This project is licensed under the **GPL-3.0** license. See [LICENSE](LICENSE) for details.
 
 ---
 

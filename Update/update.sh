@@ -1,7 +1,7 @@
-echo "Updating Fusi..."
+echo "Updating Cora..."
 
-curl -L https://github.com/fusiontech21/Fusi/releases/latest/download/fusi -o /tmp/fusi
-sudo chmod +x /tmp/fusi
-sudo mv /tmp/fusi /usr/local/bin/fusi
+curl -L https://github.com/fusiontech21/Cora/releases/latest/download/cora -o /tmp/cora
+sudo chmod +x /tmp/cora
+sudo mv /tmp/cora /usr/local/bin/cora
 
-echo "© Fusi updated successfully!"
+echo "© Cora updated successfully!"

@@ -4,7 +4,7 @@ use update::VERSION;
 
 mod update;
 
-// TODO add autoremove command
+// Finishing this tool up cause theres not much more to add
 // TODO fix stats command
 
 fn run ( sudo: bool, args: Vec<&str>) {
@@ -61,7 +61,7 @@ fn main() {
     let args: Vec<String> = std::env::args().skip(1).collect();
 
     if args.is_empty() {
-        eprintln!("{}", "No command provided. Use: fusi <command>".red());
+        eprintln!("{}", "No command provided. Use: cora <command>".red());
         std::process::exit(1);
     }
 
@@ -69,7 +69,7 @@ fn main() {
     let pkg = args.get(1);
 
     match cmd {
-        // fusi install <package(s)>
+        // cora install <package(s)>
         "install" => {
                 let mut a = vec!["pacman", "-S"];
                 for p in &args[1..] { a.push(p.as_str()); }
@@ -77,7 +77,7 @@ fn main() {
         }
 
 
-        // removes a package and its deps command = fusi remove pkg
+        // removes a package and its deps command = cora remove pkg
         "remove" => {
         let mut a = vec!["pacman", "-Rns"];
         for p in &args[1..] { a.push(p.as_str()); }
@@ -190,11 +190,11 @@ fn main() {
         // shows how much space a pkg usese
         "size" => run(false, vec!["pacman", "-Qi", require_pkg(pkg)]),
 
-        // saves installed packages to file
-        "backup" => run(false, vec!["bash", "-c", "pacman -Qe > ~/fusi-backup.txt && echo 'Backup saved to ~/fusi-backup.txt'"]),
-        
-        // reinstalls all packages from the backup
-        "restore" => run(true, vec!["bash", "-c", "pacman -S --needed $(cat ~/fusi-backup.txt | awk '{print $1}')"]),
+        // Saves installed packages to file
+        "backup" => run(false, vec!["bash", "-c", "pacman -Qe > ~/cora-backup.txt && echo 'Backup saved to ~/cora-backup.txt'"]),
+
+        // Reinstalls all packages from the backup
+        "restore" => run(true, vec!["bash", "-c", "pacman -S --needed $(cat ~/cora-backup.txt | awk '{print $1}')"]),
 
         // exact same as deps but fancier name
         "dependencies" => run(false, vec!["pacman", "-Si", require_pkg(pkg)]),
@@ -211,7 +211,7 @@ fn main() {
         // shows amount of pkgs installed
         "stats" => run(false, vec!["pacman", "-Qq"]),
 
-        // Shows latest arch news (this feature got recommended by AI)
+        // Shows latest arch news
         "news" => run(false, vec!["bash", "-c", "curl -s https://archlinux.org/feeds/news/ | grep -oP '(?<=<title>)[^<]+' | head -10"]),
 
         // removes uused deps
@@ -232,12 +232,12 @@ fn main() {
         }
     }
 
-        // Updates Fusi
+        // Updates Cora
         "self-update" => {
             if update::latest() {
                 println!("{}", "You are already on the latest version!".green());
         } else {
-            run(false, vec!["bash", "-c", "curl -s https://raw.githubusercontent.com/fusiontech21/Fusi/main/Update/update.sh | bash"]);
+            run(false, vec!["bash", "-c", "curl -s https://raw.githubusercontent.com/fusiontech21/Cora/main/Update/update.sh | bash"]);
         }
         std::process::exit(0);
         }
@@ -248,75 +248,74 @@ fn main() {
             secrething(&txt);
         }
 
-        // fusi details
+        // cora details
         "details" => {
             println!("{}", r#"
-                ███████╗██╗   ██╗███████╗██╗
-                ██╔════╝██║   ██║██╔════╝██║
-                █████╗  ██║   ██║███████╗██║
-                ██╔══╝  ██║   ██║╚════██║██║
-                ██║     ╚██████╔╝███████║██║
-                ╚═╝      ╚═════╝ ╚══════╝╚═╝
+                ██████╗ ██████╗ ██████╗  █████╗ 
+               ██╔════╝██╔═══██╗██╔══██╗██╔══██╗
+               ██║     ██║   ██║██████╔╝███████║
+               ██║     ██║   ██║██╔══██╗██╔══██║
+               ╚██████╗╚██████╔╝██║  ██║██║  ██║
+                ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
             "#.cyan().bold());
             println!("{}", "A Tool to help beginners use the Terminal for Arch-based distros".white());
             println!("{}", format!("Version: {}", VERSION).white());
-            println!("{}", "© 2026 fusiontech21 — AGPL-3.0".white());
+            println!("{}", "© 2026 fusiontech21 — GPL-3.0".white());
         }
 
-        // Help command                                     // THIS IS LOOKING GOOD REMASTERED THE FORMAT - Fusiontech
+        // Help command
     "help" => {
-        println!("{}", "Fusi - Available Commands".cyan().bold());
+        println!("{}", "Cora - Available Commands".cyan().bold());
         println!("{}", "─────────────────────────────────────────".cyan());
-        println!("{} {}", "fusi install <pkg>".green().bold(),        "→ Install a package");
-        println!("{} {}", "fusi remove <pkg>".green().bold(),         "→ Remove a package (full cleanup)");
-        println!("{} {}", "fusi softremove <pkg>".green().bold(),     "→ Remove just the package");
-        println!("{} {}", "fusi reinstall <pkg>".green().bold(),      "→ Reinstall a package");
-        println!("{} {}", "fusi aur <pkg>".green().bold(),            "→ Installs a package from the AUR");
-        println!("{} {}", "fusi aur-update <pkg>".green().bold(),     "→ Updates a Package thats from the AUR");
-        println!("{} {}", "fusi search <pkg>".green().bold(),         "→ Search for a package");
-        println!("{} {}", "fusi update".green().bold(),               "→ Update the entire system");
-        println!("{} {}", "fusi upgrade <pkg>".green().bold(),        "→ Upgrade a specific package");
-        println!("{} {}", "fusi downgrade <pkg>".green().bold(),      "→ Downgrade a package");
-        println!("{} {}", "fusi info <pkg>".green().bold(),           "→ Show info about a package");
-        println!("{} {}", "fusi installed <pkg>".green().bold(),      "→ Check if a package is installed");
-        println!("{} {}", "fusi list".green().bold(),                 "→ List explicitly installed packages");
-        println!("{} {}", "fusi listall".green().bold(),              "→ List all installed packages");
-        println!("{} {}", "fusi explicit".green().bold(),             "→ List manually installed packages");
-        println!("{} {}", "fusi foreign".green().bold(),              "→ Show packages from AUR");
-        println!("{} {}", "fusi leaves".green().bold(),               "→ Show packages nothing depends on");
-        println!("{} {}", "fusi files <pkg>".green().bold(),          "→ Show files owned by a package");
-        println!("{} {}", "fusi size <pkg>".green().bold(),           "→ Show how much disk space a package uses");
-        println!("{} {}", "fusi owner <file>".green().bold(),         "→ Show which package owns a file");
-        println!("{} {}", "fusi deps <pkg>".green().bold(),           "→ Show dependencies of a package");
-        println!("{} {}", "fusi verify <pkg>".green().bold(),         "→ Verify package files aren't corrupted");
-        println!("{} {}", "fusi check".green().bold(),                "→ Check for broken dependencies");
-        println!("{} {}", "fusi news".green().bold(),                 "→ Show latest Arch Linux news");
-        println!("{} {}", "fusi history".green().bold(),              "→ Show last 20 pacman installs");
-        println!("{} {}", "fusi log".green().bold(),                  "→ Show full pacman install history");
-        println!("{} {}", "fusi stats".green().bold(),                "→ List all installed package names");
-        println!("{} {}", "fusi cache".green().bold(),                "→ Show pacman cache size");
-        println!("{} {}", "fusi cleancache".green().bold(),           "→ Clean old package cache");
-        println!("{} {}", "fusi autoremove".green().bold(),           "→ Remove orphaned packages");
-        println!("{} {}", "fusi backup".green().bold(),               "→ Backup installed packages to a file");
-        println!("{} {}", "fusi restore".green().bold(),              "→ Restore packages from backup");
-        println!("{} {}", "fusi mirrors".green().bold(),              "→ List your mirrorlist");
-        println!("{} {}", "fusi unlock".green().bold(),               "→ Remove pacman lock file");
-        println!("{} {}", "fusi self-update".green().bold(),          "→ Update fusi to the latest version");
-        println!("{} {}", "fusi details".green().bold(),              "→ Show info about fusi");
+        println!("{} {}", "cora install <pkg>".green().bold(),        "→ Install a package");
+        println!("{} {}", "cora remove <pkg>".green().bold(),         "→ Remove a package (full cleanup)");
+        println!("{} {}", "cora softremove <pkg>".green().bold(),     "→ Remove just the package");
+        println!("{} {}", "cora reinstall <pkg>".green().bold(),      "→ Reinstall a package");
+        println!("{} {}", "cora aur <pkg>".green().bold(),            "→ Installs a package from the AUR");
+        println!("{} {}", "cora aur-update <pkg>".green().bold(),     "→ Updates a Package thats from the AUR");
+        println!("{} {}", "cora search <pkg>".green().bold(),         "→ Search for a package");
+        println!("{} {}", "cora update".green().bold(),               "→ Update the entire system");
+        println!("{} {}", "cora upgrade <pkg>".green().bold(),        "→ Upgrade a specific package");
+        println!("{} {}", "cora downgrade <pkg>".green().bold(),      "→ Downgrade a package");
+        println!("{} {}", "cora info <pkg>".green().bold(),           "→ Show info about a package");
+        println!("{} {}", "cora installed <pkg>".green().bold(),      "→ Check if a package is installed");
+        println!("{} {}", "cora list".green().bold(),                 "→ List explicitly installed packages");
+        println!("{} {}", "cora listall".green().bold(),              "→ List all installed packages");
+        println!("{} {}", "cora explicit".green().bold(),             "→ List manually installed packages");
+        println!("{} {}", "cora foreign".green().bold(),              "→ Show packages from AUR");
+        println!("{} {}", "cora leaves".green().bold(),               "→ Show packages nothing depends on");
+        println!("{} {}", "cora files <pkg>".green().bold(),          "→ Show files owned by a package");
+        println!("{} {}", "cora size <pkg>".green().bold(),           "→ Show how much disk space a package uses");
+        println!("{} {}", "cora owner <file>".green().bold(),         "→ Show which package owns a file");
+        println!("{} {}", "cora deps <pkg>".green().bold(),           "→ Show dependencies of a package");
+        println!("{} {}", "cora verify <pkg>".green().bold(),         "→ Verify package files aren't corrupted");
+        println!("{} {}", "cora check".green().bold(),                "→ Check for broken dependencies");
+        println!("{} {}", "cora news".green().bold(),                 "→ Show latest Arch Linux news");
+        println!("{} {}", "cora history".green().bold(),              "→ Show last 20 pacman installs");
+        println!("{} {}", "cora log".green().bold(),                  "→ Show full pacman install history");
+        println!("{} {}", "cora stats".green().bold(),                "→ List all installed package names");
+        println!("{} {}", "cora cache".green().bold(),                "→ Show pacman cache size");
+        println!("{} {}", "cora cleancache".green().bold(),           "→ Clean old package cache");
+        println!("{} {}", "cora autoremove".green().bold(),           "→ Remove orphaned packages");
+        println!("{} {}", "cora backup".green().bold(),               "→ Backup installed packages to a file");
+        println!("{} {}", "cora restore".green().bold(),              "→ Restore packages from backup");
+        println!("{} {}", "cora mirrors".green().bold(),              "→ List your mirrorlist");
+        println!("{} {}", "cora unlock".green().bold(),               "→ Remove pacman lock file");
+        println!("{} {}", "cora self-update".green().bold(),          "→ Update cora to the latest version");
+        println!("{} {}", "cora details".green().bold(),              "→ Show info about cora");
         println!("{}", "─────────────────────────────────────────".cyan());
-        println!("{}", "© 2026 fusiontech21 — AGPL-3.0".white());
+        println!("{}", "© 2026 fusiontech21 — GPL-3.0".white());
 }
 
         // anything else
         _ => {
-            println!("{}", format!("Unknown Command ({}) Type fusi help to list all Commands", cmd).yellow());
+            println!("{}", format!("Unknown Command ({}) Type cora help to list all Commands", cmd).yellow());
         }
     }
 
     update::checkupdate();
     std::process::exit(0);
 }
-
 fn secrething(txt: &str) {
     let colors = ["rd", "ylw", "grn", "cyn", "blue", "mgnt"];
     for (i, ch) in txt.chars().enumerate() {
