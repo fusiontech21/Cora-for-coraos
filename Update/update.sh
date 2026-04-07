@@ -16,8 +16,16 @@ if [ -z "$URL" ]; then
 fi
 
 echo "Downloading from: $URL"
-curl -fSL "$URL" -o /tmp/cora-new
+TMPFILE=$(mktemp /tmp/cora-new.XXXXXX)
+curl -fSL "$URL" -o "$TMPFILE"
 
-sudo install -m 755 /tmp/cora-new /usr/local/bin/cora
-rm -f /tmp/cora-new
+# Verify it's actually a valid binary before installing
+if ! file "$TMPFILE" | grep -q "ELF"; then
+    echo "Error: Downloaded file is not a valid binary."
+    rm -f "$TMPFILE"
+    exit 1
+fi
+
+sudo install -m 755 "$TMPFILE" /usr/local/bin/cora
+rm -f "$TMPFILE"
 echo "Update complete."
