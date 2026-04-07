@@ -2,7 +2,7 @@
 ALSO KEEP THIS IN THE GITHUB VERSION AND REMOVE IT IN THE AUR VERSION */
 use colored::Colorize;
 
-pub const VERSION: &str = "0.3.6";
+pub const VERSION: &str = "0.3.7";
 
 pub fn checkupdate() {
     let url = "https://api.github.com/repos/fusiontech21/Cora-for-coraos/releases/latest";
