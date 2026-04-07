@@ -263,8 +263,15 @@ fn main() {
             println!("{}", "© 2026 fusiontech21 — GPL-3.0".white());
         }
 
+
+        // Version Command
+        "version" => {
+            println!("{}", format!("  Cora Version : {}", VERSION).cyan());
+            println!("{}", "© 2026 fusiontech21 — GPL-3.0".cyan().bold());
+        }
+
         // Help command
-    "help" => {
+        "help" => {
         println!("{}", "Cora - Available Commands".cyan().bold());
         println!("{}", "─────────────────────────────────────────".cyan());
         println!("{} {}", "cora install <pkg>".green().bold(),        "→ Install a package");
