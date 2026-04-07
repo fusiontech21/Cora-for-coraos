@@ -2,19 +2,22 @@
 set -e
 REPO="fusiontech21/Cora-for-coraos"
 
-# Clean up the JSON to get just the version number
-LATEST=$(curl -s https://api.github.com/repos/$REPO/releases/latest | grep '"tag_name"' | head -1 | tr -d ' ",')
+echo "Fetching update info..."
 
-if [[ -z "$LATEST" ]]; then
-    echo "Error: Could not find version."
+URL=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" \
+    | grep "browser_download_url" \
+    | grep "cora" \
+    | head -1 \
+    | sed -n 's/.*"browser_download_url": *"\([^"]*\)".*/\1/p')
+
+if [ -z "$URL" ]; then
+    echo "Error: Could not find the download link."
     exit 1
 fi
 
-BIN_URL="https://github.com/$REPO/releases/download/$LATEST/cora"
-
-echo "Downloading Cora $LATEST..."
-curl -fSL "$BIN_URL" -o /tmp/cora-new
+echo "Downloading from: $URL"
+curl -fSL "$URL" -o /tmp/cora-new
 
 sudo install -m 755 /tmp/cora-new /usr/local/bin/cora
-rm /tmp/cora-new
-echo "Cora updated to $LATEST"
+rm -f /tmp/cora-new
+echo "Update complete."
