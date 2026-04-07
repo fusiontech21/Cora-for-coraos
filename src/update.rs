@@ -5,7 +5,7 @@ use colored::Colorize;
 pub const VERSION: &str = "0.3.6";
 
 pub fn checkupdate() {
-    let url = "https://api.github.com/repos/fusiontech21/Cora/releases/latest";
+    let url = "https://api.github.com/repos/fusiontech21/Cora-for-coraos/releases/latest";
 
     let clint = reqwest::blocking::Client::builder()
         .user_agent("cora")
@@ -44,7 +44,7 @@ pub fn checkupdate() {
 }
 
 pub fn latest() -> bool {
-    let url = "https://api.github.com/repos/fusiontech21/Cora/releases/latest";
+    let url = "https://api.github.com/repos/fusiontech21/Cora-for-coraos/releases/latest";
     let client = reqwest::blocking::Client::builder()
         .user_agent("cora")
         .build()
